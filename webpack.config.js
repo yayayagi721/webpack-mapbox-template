@@ -1,6 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const Dotenv = require("dotenv-webpack");
+// replace accordingly './.env' with the path of your .env file
+require("dotenv").config({ path: "./.env" });
+
 module.exports = {
   mode: "development",
   entry: {
@@ -46,12 +50,26 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.css/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              url: false,
+              sourceMap: true,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "/src/html/index.html"),
     }),
+    new Dotenv(),
   ],
 
   resolve: {
